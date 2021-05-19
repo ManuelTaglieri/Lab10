@@ -67,6 +67,36 @@ public class FXMLController {
     	txtEndDate.setText(model.getMaxDate(r).toString());
     	txtFMed.setText(Double.toString(model.getAvgFlow(r)));
     	txtNumMeasurements.setText(Integer.toString(model.getSizeFlow(r)));
+    	
+    	this.btnSimula.setDisable(false);
+
+    }
+    
+    @FXML
+    void simula(ActionEvent event) {
+    	
+    	txtResult.clear();
+    	
+    	if (txtK.getText()==null || txtK.getText()=="") {
+    		txtResult.setText("Inserire un valore di k");
+    		return;
+    	}
+    	
+    	if (boxRiver.getValue()==null) {
+    		txtResult.setText("Selezionare un fiume dal menù a tendina");
+    		return;
+    	}
+    	
+    	try {
+    		double k = Double.parseDouble(txtK.getText());
+    		this.model.simula(k, boxRiver.getValue());
+    		
+    		txtResult.setText("Il numero di giorni con carenza idrica è stato " + this.model.getCarenza() +".\n");
+    		txtResult.appendText("L'occupazione media del bacino è stata di " + this.model.getMedia() + " m^3.");
+    	} catch (NumberFormatException e) {
+    		txtResult.setText("Inserire un valore numerico come parametro k");
+    		return;
+    	}
 
     }
 

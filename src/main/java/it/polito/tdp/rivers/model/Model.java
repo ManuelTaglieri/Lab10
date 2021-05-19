@@ -10,11 +10,13 @@ import it.polito.tdp.rivers.db.RiversDAO;
 public class Model {
 	
 	RiversDAO dao;
-	Map<River, List<Flow>> portate; 
+	Map<River, List<Flow>> portate;
+	Simulatore sim;
 	
 	public Model() {
 		this.dao = new RiversDAO();
 		this.portate = new HashMap<>();
+		this.sim = new Simulatore();
 	}
 	
 	public List<River> getAllRivers() {
@@ -75,7 +77,19 @@ public class Model {
 		
 	}
 	
+	public void simula(double k, River r) {
+		
+		this.sim.init(k, this.getAvgFlow(r), this.portate.get(r));
+		this.sim.run();
+		
+	}
 	
+	public double getMedia() {
+		return this.sim.getMedia();
+	}
 	
-
+	public int getCarenza() {
+		return this.sim.getCarenza();
+	}
+	
 }
