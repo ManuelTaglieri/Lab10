@@ -8,6 +8,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import it.polito.tdp.rivers.model.Model;
+import it.polito.tdp.rivers.model.River;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -25,7 +27,7 @@ public class FXMLController {
     private URL location;
 
     @FXML // fx:id="boxRiver"
-    private ComboBox<?> boxRiver; // Value injected by FXMLLoader
+    private ComboBox<River> boxRiver; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtStartDate"
     private TextField txtStartDate; // Value injected by FXMLLoader
@@ -47,6 +49,26 @@ public class FXMLController {
 
     @FXML // fx:id="txtResult"
     private TextArea txtResult; // Value injected by FXMLLoader
+    
+    @FXML
+    void caricaPortateFiume(ActionEvent event) {
+    	
+    	txtResult.clear();
+    	txtStartDate.clear();
+    	txtEndDate.clear();
+    	txtFMed.clear();
+    	txtNumMeasurements.clear();
+    	
+    	River r = boxRiver.getValue();
+    	
+    	model.flowByRiver(r);
+    	
+    	txtStartDate.setText(model.getMinDate(r).toString());
+    	txtEndDate.setText(model.getMaxDate(r).toString());
+    	txtFMed.setText(Double.toString(model.getAvgFlow(r)));
+    	txtNumMeasurements.setText(Integer.toString(model.getSizeFlow(r)));
+
+    }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
@@ -62,5 +84,8 @@ public class FXMLController {
     
     public void setModel(Model model) {
     	this.model = model;
+    	
+    	this.boxRiver.getItems().addAll(model.getAllRivers());
+    	
     }
 }
