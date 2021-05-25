@@ -92,7 +92,7 @@ public class FXMLController {
     		this.model.simula(k, boxRiver.getValue());
     		
     		txtResult.setText("Il numero di giorni con carenza idrica è stato " + this.model.getCarenza() +".\n");
-    		txtResult.appendText("L'occupazione media del bacino è stata di " + this.model.getMedia() + " m^3.");
+    		txtResult.appendText("L'occupazione media del bacino è stata di " + (int) this.model.getMedia() + " m^3.");
     	} catch (NumberFormatException e) {
     		txtResult.setText("Inserire un valore numerico come parametro k");
     		return;
